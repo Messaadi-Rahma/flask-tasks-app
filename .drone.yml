@@ -1,0 +1,19 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: build
+    image: docker
+    commands:
+      - docker build -t rahma/flask-tasks-app .
+
+  - name: publish
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      repo: rahmamessadi23/flask-tasks-app
+      tags: latest
