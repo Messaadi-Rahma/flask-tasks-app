@@ -1,25 +1,31 @@
-apiVersion: apps/v1   # Version de l'API Kubernetes pour les Deployments
-kind: Deployment      # Type d’objet (ici : un Deployment)
-
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: flask-tasks-app   # Nom du déploiement
+  name: flask-tasks-app
 
-spec:                   # Spécification du comportement désiré
-  replicas: 1           # Nombre d'instances de ton app (haute dispo = +)
-  selector:             # Sélecteur pour lier le deployment à ses pods
+spec:
+  replicas: 1  # Keep only one pod for testing
+  selector:
     matchLabels:
       app: flask-tasks-app
 
-  template:             # Gabarit de Pod (ce que Kubernetes doit créer)
+  template:
     metadata:
       labels:
-        app: flask-tasks-app   # Label commun aux pods créés
+        app: flask-tasks-app
 
-    spec:               # Spécifications des conteneurs dans le Pod
+    spec:
       containers:
         - name: flask-tasks-app
-          image: rahma/flask-tasks-app  # Image Docker que tu as construite
+          image: rahma/flask-tasks-app  # Make sure it's built and loaded
           imagePullPolicy: Never
           ports:
-            - containerPort: 5000       # Port exposé dans le container
-
+            - containerPort: 5000
+          volumeMounts:
+            - name: tasks-volume
+              mountPath: /data
+      volumes:
+        - name: tasks-volume
+          hostPath:
+            path: /data/flask-tasks
+            type: DirectoryOrCreate

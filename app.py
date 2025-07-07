@@ -1,53 +1,64 @@
+import os
 from flask import Flask, request, jsonify
 import json
-import os
 
 app = Flask(__name__)
 
-TASKS_FILE = "tasks.json"
+# Absolute persistent storage path (MUST match deployment mountPath)
+DATA_DIR = "/data"
+TASKS_FILE = os.path.join(DATA_DIR, "tasks.json")
 
+# Ensure the directory exists at startup
+os.makedirs(DATA_DIR, exist_ok=True)
+
+def save_tasks(tasks):
+    try:
+        with open(TASKS_FILE, 'w') as f:
+            json.dump(tasks, f, indent=2)
+            f.flush()
+            os.fsync(f.fileno())
+        print(f"Saved to {TASKS_FILE}")
+        return True
+    except Exception as e:
+        print(f"Save failed: {e}")
+        return False
+
+def load_tasks():
+    if not os.path.exists(TASKS_FILE):
+        return []
+    try:
+        with open(TASKS_FILE, 'r') as f:
+            return json.load(f)
+    except:
+        return []
 
 @app.route('/')
 def index():
     return "Bienvenue sur l’API des tâches DevOps ! Utilisez /tasks pour interagir."
 
-
-# Charger les tâches depuis le fichier JSON
-def load_tasks():
-    if not os.path.exists(TASKS_FILE):
-        return []
-    with open(TASKS_FILE, "r") as f:
-        return json.load(f)
-
-# Sauvegarder les tâches
-def save_tasks(tasks):
-    with open(TASKS_FILE, "w") as f:
-        json.dump(tasks, f, indent=4)
-
-# GET: récupérer toutes les tâches
-@app.route("/tasks", methods=["GET"])
-def get_tasks():
-    tasks = load_tasks()
-    return jsonify(tasks)
-
-# POST: ajouter une nouvelle tâche
-@app.route("/tasks", methods=["POST"])
+@app.route('/tasks', methods=['POST'])
 def add_task():
-    data = request.json
+    if not request.is_json:
+        return jsonify({"error": "JSON required"}), 400
+    
+    data = request.get_json()
+    if not data.get('title'):
+        return jsonify({"error": "Title required"}), 400
+    
     tasks = load_tasks()
-    new_id = tasks[-1]["id"] + 1 if tasks else 1
-    new_task = {"id": new_id, "title": data["title"]}
+    new_id = max((task['id'] for task in tasks), default=0) + 1
+    new_task = {"id": new_id, "title": data['title']}
     tasks.append(new_task)
-    save_tasks(tasks)
+    
+    if not save_tasks(tasks):
+        return jsonify({"error": "Failed to save"}), 500
+    
     return jsonify(new_task), 201
 
-# DELETE: supprimer une tâche par ID
-@app.route("/tasks/<int:task_id>", methods=["DELETE"])
-def delete_task(task_id):
-    tasks = load_tasks()
-    tasks = [t for t in tasks if t["id"] != task_id]
-    save_tasks(tasks)
-    return jsonify({"message": f"Task {task_id} deleted"})
-    
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+@app.route('/tasks', methods=['GET'])
+def get_tasks():
+    return jsonify(load_tasks())
+
+if __name__ == '__main__':
+    print(f"Using tasks file: {TASKS_FILE}")
+    app.run(host='0.0.0.0', port=5000, debug=True)

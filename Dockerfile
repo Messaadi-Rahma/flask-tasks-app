@@ -1,6 +1,12 @@
 # Use official Python image as base
 FROM python:3.12-slim
 
+# Set environment variable for data directory
+ENV DATA_DIR=/data
+
+# Create app directory and data directory
+RUN mkdir -p /app ${DATA_DIR}
+
 # Set working directory in container
 WORKDIR /app
 
