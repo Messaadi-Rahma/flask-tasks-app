@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drone-runner
+  namespace: drone
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: drone-runner
+  template:
+    metadata:
+      labels:
+        app: drone-runner
+    spec:
+      serviceAccountName: drone
+      containers:
+        - name: drone-runner
+          image: drone/drone-runner-kube:latest
+          env:
+            - name: DRONE_RPC_PROTO
+              value: "http"
+            - name: DRONE_RPC_HOST
+              value: "192.168.49.2:30080"
+            - name: DRONE_RPC_SECRET
+              value: "supersecret1234"
+            - name: DRONE_NAMESPACE_DEFAULT
+              value: "drone"
+            - name: DRONE_RUNNER_CAPACITY
+              value: "2"
+            - name: DRONE_RUNNER_NAME
+              value: "kube-runner"

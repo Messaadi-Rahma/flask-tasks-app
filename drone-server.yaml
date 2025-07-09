@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: drone
+  namespace: drone
+spec:
+  type: NodePort
+  selector:
+    app: drone
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30080  # Accessible at http://<NODE_IP>:30080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drone
+  namespace: drone
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: drone
+  template:
+    metadata:
+      labels:
+        app: drone
+    spec:
+      containers:
+        - name: drone
+          image: drone/drone:2
+          ports:
+            - containerPort: 80
+          env:
+            - name: DRONE_GITHUB_CLIENT_ID
+              value: "Ov23libDrbitwmL3AIWY"
+            - name: DRONE_GITHUB_CLIENT_SECRET
+              value: "2a706eeac0368627ba88a2ad558be1d1e7f9de51"
+            - name: DRONE_RPC_SECRET
+              value: "supersecret1234"
+            - name: DRONE_SERVER_HOST
+              value: "192.168.49.2:30080"   # Replace with your minikube IP if needed
+            - name: DRONE_SERVER_PROTO
+              value: "http"
+            - name: DRONE_USER_CREATE
+              value: "username:Messaadi-Rahma,admin:true"
+            - name: DRONE_TLS_AUTOCERT
+              value: "false"
