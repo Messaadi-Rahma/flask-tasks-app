@@ -1,1 +1,17 @@
-test 
+test
+
+
+
+
+Now run the right command to expose Minikube:
+
+ngrok http 192.168.49.2:30080
+You should see something like:
+Forwarding https://abcd1234.ngrok-free.app → http://192.168.49.2:30080
+
+
+
+
+Open this URL → Drone UI should load   https://abcd1234.ngrok-free.app
+Go to GitHub → Webhook → update Payload URL:   https://abcd1234.ngrok-free.app/hook
+ 
