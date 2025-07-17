@@ -10,6 +10,19 @@ You should see something like:
 Forwarding https://abcd1234.ngrok-free.app → http://192.168.49.2:30080
 
 
+optionnal :
+- name: DRONE_SERVER_HOST
+  value: abcd1234.ngrok.io
+- name: DRONE_SERVER_PROTO
+  value: https
+kubectl apply -f drone-server.yaml
+
+
+
+oauh:
+Homepage URL → https://your-ngrok-url
+Authorization callback URL → https://your-ngrok-url/login
+
 
 
 Open this URL → Drone UI should load   https://abcd1234.ngrok-free.app

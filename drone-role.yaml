@@ -1,0 +1,34 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"rbac.authorization.k8s.io/v1","kind":"Role","metadata":{"annotations":{},"name":"drone","namespace":"drone"},"rules":[{"apiGroups":[""],"resources":["pods","pods/exec","pods/log"],"verbs":["create","delete","get","list","watch"]},{"apiGroups":["batch"],"resources":["jobs"],"verbs":["create","delete","get","list","watch"]}]}
+  creationTimestamp: "2025-07-07T19:01:43Z"
+  name: drone
+  namespace: drone
+  resourceVersion: "60029"
+  uid: 77e73b21-6f01-4097-9906-a97e5067f8dd
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - pods/exec
+  - pods/log
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - watch
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - watch
