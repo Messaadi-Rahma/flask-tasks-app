@@ -9,6 +9,10 @@ ngrok http 192.168.49.2:30080
 You should see something like:
 Forwarding https://abcd1234.ngrok-free.app → http://192.168.49.2:30080
 
+oauh:
+Homepage URL → https://your-ngrok-url
+Authorization callback URL → https://your-ngrok-url/login
+
 
 optionnal :
 - name: DRONE_SERVER_HOST
@@ -17,11 +21,6 @@ optionnal :
   value: https
 kubectl apply -f drone-server.yaml
 
-
-
-oauh:
-Homepage URL → https://your-ngrok-url
-Authorization callback URL → https://your-ngrok-url/login
 
 
 
