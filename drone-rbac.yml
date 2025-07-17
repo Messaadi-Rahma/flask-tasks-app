@@ -1,38 +1,31 @@
-kind: ServiceAccount
 apiVersion: v1
+kind: ServiceAccount
 metadata:
   name: drone
   namespace: drone
-
 ---
-
-kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
 metadata:
   name: drone
-  namespace: drone
 rules:
-  - apiGroups: [""]
-    resources: ["pods", "pods/log", "secrets"]
-    verbs: ["create", "get", "watch", "list", "delete"]
-
-  - apiGroups: ["batch"]
-    resources: ["jobs"]
-    verbs: ["create", "get", "watch", "list", "delete"]
-
+- apiGroups: [""]
+  resources: ["pods", "pods/exec", "pods/log", "secrets"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "create", "update", "delete"]
 ---
-
-kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
 metadata:
   name: drone
-  namespace: drone
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
+  kind: ClusterRole
   name: drone
 subjects:
-  - kind: ServiceAccount
-    name: drone
-    namespace: drone
+- kind: ServiceAccount
+  name: drone
+  namespace: drone
 
