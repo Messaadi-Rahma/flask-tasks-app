@@ -14,7 +14,7 @@ Homepage URL → https://your-ngrok-url
 Authorization callback URL → https://your-ngrok-url/login
 
 
-optionnal :
+drone-server :
 - name: DRONE_SERVER_HOST
   value: abcd1234.ngrok.io
 - name: DRONE_SERVER_PROTO
