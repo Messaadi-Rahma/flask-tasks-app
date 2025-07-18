@@ -1,5 +1,5 @@
 addtest
-
+.drone : credential github account 
 try 
 webhook
 
