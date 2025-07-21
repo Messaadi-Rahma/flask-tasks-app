@@ -19,9 +19,9 @@ spec:
           image: drone/drone-runner-kube:latest
           env:
             - name: DRONE_RPC_PROTO
-              value: "https"
+              value: "http"
             - name: DRONE_RPC_HOST
-              value: "https://1db74e285511.ngrok-free.app"
+              value: "drone.drone.svc.cluster.local"
             - name: DRONE_RPC_SECRET
               value: "supersecret1234"
             - name: DRONE_NAMESPACE_DEFAULT
