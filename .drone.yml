@@ -3,17 +3,12 @@ type: kubernetes
 name: default
 
 steps:
-  - name: build
-    image: plugins/docker
-    commands:
-      - docker build -t rahma/flask-tasks-app .
-
   - name: publish
     image: plugins/docker
     settings:
+      repo: Messaadi-Rahma/flask-tasks-app
+      tags: latest
       username:
         from_secret: docker_username
       password:
         from_secret: docker_password
-      repo: Messaadi-Rahma/flask-tasks-app
-      tags: latest
