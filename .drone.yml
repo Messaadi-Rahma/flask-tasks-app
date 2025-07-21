@@ -6,7 +6,7 @@ steps:
   - name: publish
     image: plugins/docker
     settings:
-      repo: rahma/flask-tasks-app
+      repo: rahmamessadi23/flask-tasks-app
       tags: latest
       username:
         from_secret: docker_username
