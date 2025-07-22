@@ -4,12 +4,13 @@ import json
 
 app = Flask(__name__)
 
-# Absolute persistent storage path (MUST match deployment mountPath)
-DATA_DIR = "/data"
-TASKS_FILE = os.path.join(DATA_DIR, "tasks.json")
 
-# Ensure the directory exists at startup
-os.makedirs(DATA_DIR, exist_ok=True)
+# Get config from environment variables
+DATA_DIR = os.getenv('DATA_DIR', '/data')
+TASKS_FILE = os.path.join(DATA_DIR, os.getenv('TASKS_FILENAME', 'tasks.json'))
+SECRET_MESSAGE = os.getenv('SECRET_MESSAGE', 'No secret')
+
+
 
 def save_tasks(tasks):
     try:
@@ -34,7 +35,7 @@ def load_tasks():
 
 @app.route('/')
 def index():
-    return "Bienvenue sur l’API des tâches DevOps ! Utilisez /tasks pour interagir."
+    return f"DevOps Tasks API! Secret: {SECRET_MESSAGE}"
 
 @app.route('/tasks', methods=['POST'])
 def add_task():

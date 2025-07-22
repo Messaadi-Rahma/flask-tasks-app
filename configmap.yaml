@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  DATA_DIR: "/data"            # Custom path
+  TASKS_FILENAME: "tasks.json" # Custom filename

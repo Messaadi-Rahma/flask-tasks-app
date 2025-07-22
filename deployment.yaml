@@ -2,30 +2,43 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: flask-tasks-app
-
 spec:
-  replicas: 1  # Keep only one pod for testing
+  replicas: 1
   selector:
     matchLabels:
       app: flask-tasks-app
-
   template:
     metadata:
       labels:
         app: flask-tasks-app
-
     spec:
       containers:
         - name: flask-tasks-app
-          image: rahma/flask-tasks-app  # Make sure it's built and loaded
-          imagePullPolicy: Never
+          image: rahma/flask-tasks-app
+          imagePullPolicy: Always
           ports:
             - containerPort: 5000
+          # Add environment variables
+          env:
+            - name: DATA_DIR
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: DATA_DIR
+            - name: TASKS_FILENAME
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: TASKS_FILENAME
+            - name: SECRET_MESSAGE
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: SECRET_MESSAGE
           volumeMounts:
             - name: tasks-volume
-              mountPath: /data
+              mountPath: /data  # Must match ConfigMap value!
       volumes:
         - name: tasks-volume
-          hostPath:
-            path: /data/flask-tasks
-            type: DirectoryOrCreate
+          persistentVolumeClaim:
+            claimName: tasks-pvc  # Use PVC instead of hostPath
