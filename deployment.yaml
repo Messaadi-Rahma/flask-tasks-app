@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: flask-tasks-app
-          image: rahma/flask-tasks-app
+          image: rahmamessadi23/flask-tasks-app
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
@@ -30,6 +30,11 @@ spec:
                 configMapKeyRef:
                   name: app-config
                   key: TASKS_FILENAME
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: PORT
             - name: SECRET_MESSAGE
               valueFrom:
                 secretKeyRef:

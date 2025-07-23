@@ -5,3 +5,4 @@ metadata:
 data:
   DATA_DIR: "/data"            # Custom path
   TASKS_FILENAME: "tasks.json" # Custom filename
+  PORT: "5000"
