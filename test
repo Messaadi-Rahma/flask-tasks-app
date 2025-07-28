@@ -1,3 +1,5 @@
+minikube service flask-tasks-service --url
+
 jhdsddffjidnhdeddshahhsdvv
 dtest
 .drone : credential github account 
