@@ -5,16 +5,18 @@ from prometheus_flask_exporter import PrometheusMetrics
 
 app = Flask(__name__)
 
+# Configuration des métriques AVANT toute route
+metrics = PrometheusMetrics(app)
+# Optionnel : Ajoute des infos supplémentaires pour Prometheus
+metrics.info('app_info', 'Flask Tasks App with Prometheus', version='1.0.0')
 
-# Get config from environment variables
+# Configuration de l'application
 DATA_DIR = os.getenv('DATA_DIR', '/data')
 TASKS_FILE = os.path.join(DATA_DIR, os.getenv('TASKS_FILENAME', 'tasks.json'))
 SECRET_MESSAGE = os.getenv('SECRET_MESSAGE', 'No secret')
 PORT = int(os.getenv('PORT', 5000))
 
-# Initialise les métriques
-metrics = PrometheusMetrics(app)
-
+# Fonctions auxiliaires
 def save_tasks(tasks):
     try:
         with open(TASKS_FILE, 'w') as f:
@@ -36,7 +38,10 @@ def load_tasks():
     except:
         return []
 
-
+# Routes
+@app.route('/secret')
+def secret():
+    return f"DevOps Tasks API! Secret: {SECRET_MESSAGE}"
 
 @app.route('/')
 def home():
@@ -65,6 +70,7 @@ def add_task():
 def get_tasks():
     return jsonify(load_tasks())
 
+# Lancement de l'application
 if __name__ == '__main__':
     print(f"Using tasks file: {TASKS_FILE}")
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=PORT, debug=True)
