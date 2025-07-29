@@ -1,19 +1,22 @@
 import os
 from flask import Flask, request, jsonify
 import json
-
+from prometheus_flask_exporter import PrometheusMetrics
 
 app = Flask(__name__)
 
+# Initialize Prometheus metrics (exposes /metrics)
+metrics = PrometheusMetrics(app)
 
-# Get config from environment variables
+# Environment config
 DATA_DIR = os.getenv('DATA_DIR', '/data')
 TASKS_FILE = os.path.join(DATA_DIR, os.getenv('TASKS_FILENAME', 'tasks.json'))
 SECRET_MESSAGE = os.getenv('SECRET_MESSAGE', 'No secret')
 PORT = int(os.getenv('PORT', 5000))
 
-
-
+@app.route('/')
+def index():
+    return f"DevOps Tasks API! Secret: {SECRET_MESSAGE}"
 
 def save_tasks(tasks):
     try:
@@ -36,15 +39,6 @@ def load_tasks():
     except:
         return []
 
-
-
-@app.route('/secret')
-def index():
-    return f"DevOps Tasks API! Secret: {SECRET_MESSAGE}"
-
-
-
-
 @app.route('/tasks', methods=['POST'])
 def add_task():
     if not request.is_json:
@@ -64,13 +58,9 @@ def add_task():
     
     return jsonify(new_task), 201
 
-
-
-
 @app.route('/tasks', methods=['GET'])
 def get_tasks():
     return jsonify(load_tasks())
 
 if __name__ == '__main__':
-    print(f"Using tasks file: {TASKS_FILE}")
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    print(f"Using
