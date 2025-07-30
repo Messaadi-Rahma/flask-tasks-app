@@ -843,6 +843,12 @@ serverFiles:
       - /etc/config/alerts
 
     scrape_configs:
+      - job_name: 'flask-app'
+        scrape_interval: 15s
+        static_configs:
+          - targets: ['flask-tasks-service.monitoring.svc.cluster.local:5001']
+
+          
       - job_name: prometheus
         static_configs:
           - targets:
