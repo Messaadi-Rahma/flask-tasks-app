@@ -5,7 +5,7 @@ from prometheus_flask_exporter import PrometheusMetrics
 
 app = Flask(__name__)
 
-# Initialize Prometheus metrics (exposes /metrics)
+# Initialize Prometheus metrics (exposes metrics)
 metrics = PrometheusMetrics(app)
 
 # Environment config
@@ -63,4 +63,5 @@ def get_tasks():
     return jsonify(load_tasks())
 
 if __name__ == '__main__':
-    print(f"Using
+    print(f"Using tasks file: {TASKS_FILE}")
+    app.run(host='0.0.0.0', port=5000, debug=True)
