@@ -2,7 +2,6 @@ import os
 from flask import Flask, request, jsonify
 import json
 from prometheus_flask_exporter import PrometheusMetrics
-import psutil
 import threading
 import time
 
