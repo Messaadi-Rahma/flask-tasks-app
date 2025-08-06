@@ -2,17 +2,19 @@ import os
 from flask import Flask, request, jsonify
 import json
 
-
 app = Flask(__name__)
 
 
-# Get config from environment variables
+
+# Environment config
 DATA_DIR = os.getenv('DATA_DIR', '/data')
 TASKS_FILE = os.path.join(DATA_DIR, os.getenv('TASKS_FILENAME', 'tasks.json'))
 SECRET_MESSAGE = os.getenv('SECRET_MESSAGE', 'No secret')
 PORT = int(os.getenv('PORT', 5000))
 
-
+@app.route('/')
+def index():
+    return f"DevOps Tasks API! Secret: {SECRET_MESSAGE}"
 
 def save_tasks(tasks):
     try:
@@ -34,12 +36,6 @@ def load_tasks():
             return json.load(f)
     except:
         return []
-
-
-
-@app.route('/')
-def home():
-    return "Hello, Prometheus!"
 
 @app.route('/tasks', methods=['POST'])
 def add_task():
