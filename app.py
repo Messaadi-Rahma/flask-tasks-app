@@ -62,4 +62,4 @@ def get_tasks():
 
 if __name__ == '__main__':
     print(f"Using tasks file: {TASKS_FILE}")
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=PORT, debug=True)
