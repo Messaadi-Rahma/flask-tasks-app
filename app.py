@@ -1,7 +1,7 @@
 import os
 from flask import Flask, request, jsonify
 import json
-
+from prometheus_flask_exporter import PrometheusMetrics
 app = Flask(__name__)
 
 
@@ -11,6 +11,8 @@ DATA_DIR = os.getenv('DATA_DIR', '/data')
 TASKS_FILE = os.path.join(DATA_DIR, os.getenv('TASKS_FILENAME', 'tasks.json'))
 SECRET_MESSAGE = os.getenv('SECRET_MESSAGE', 'No secret')
 PORT = int(os.getenv('PORT', 5000))
+
+metrics = PrometheusMetrics(app)
 
 @app.route('/')
 def index():
