@@ -22,7 +22,6 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
-            - containerPort: 5001                                                   # Added metrics port
           # Add environment variables
           env:
             - name: DATA_DIR
@@ -41,18 +40,7 @@ spec:
                 configMapKeyRef:
                   name: app-config
                   key: PORT
-            - name: METRICS_PORT  # New
-              valueFrom:
-                configMapKeyRef:
-                  name: app-config
-                  key: METRICS_PORT
 
-            - name: METRICS_ENABLED  # New
-              valueFrom:
-                configMapKeyRef:
-                  name: app-config
-                  key: METRICS_ENABLED            
-                  
              
             - name: SECRET_MESSAGE
               valueFrom:

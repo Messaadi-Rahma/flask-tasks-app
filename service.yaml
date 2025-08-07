@@ -14,8 +14,4 @@ spec:
       port: 5000           # Port interne du service (accès logique)
       targetPort: 5000     # Port sur lequel le conteneur écoute
       nodePort: 30001      # Port d’accès depuis l’extérieur (localhost:30001)
-      
-    - name: metrics  # Added metrics port
-      protocol: TCP
-      port: 5001
-      targetPort: 5001
+

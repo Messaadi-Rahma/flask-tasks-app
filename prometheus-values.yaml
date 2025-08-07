@@ -842,21 +842,6 @@ serverFiles:
       - /etc/config/rules
       - /etc/config/alerts
 
-    scrape_configs:                                                             ## added
-      - job_name: 'flask-app'
-        scrape_interval: 15s
-        metrics_path: /metrics
-        kubernetes_sd_configs:
-          - role: service
-            namespaces:
-            names: [default]  # Look in default namespace
-        relabel_configs:
-          - source_labels: [__meta_kubernetes_service_name]
-            action: keep
-            regex: flask-tasks-service
-          - source_labels: [__meta_kubernetes_service_port_name]
-            action: keep
-            regex: metrics                                                          ## added
 
 
       - job_name: prometheus
