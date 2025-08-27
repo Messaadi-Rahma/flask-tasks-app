@@ -1,17 +1,20 @@
 apiVersion: v1
-kind: Service              # Type d’objet : Service Kubernetes
-
+kind: Service
 metadata:
-  name: flask-tasks-service  # Nom du service
-
+  name: flask-tasks-service
+  labels:
+    app: flask-tasks-app   # IMPORTANT : les labels
 spec:
-  type: NodePort           # Type d’accès : accessible depuis ton PC
-  selector:                # Pour faire le lien avec les pods (grâce au label)
+  type: NodePort
+  selector:
     app: flask-tasks-app
-
   ports:
-    - protocol: TCP
-      port: 5000           # Port interne du service (accès logique)
-      targetPort: 5000     # Port sur lequel le conteneur écoute
-      nodePort: 30001      # Port d’accès depuis l’extérieur (localhost:30001)
-
+    - name: http           # 🔹 ajoute un nom ici
+      protocol: TCP
+      port: 5000
+      targetPort: 5000
+      nodePort: 30001
+    - name: metrics        # 🔹 ajoute un deuxième port pour /metrics
+      protocol: TCP
+      port: 5001
+      targetPort: 5001

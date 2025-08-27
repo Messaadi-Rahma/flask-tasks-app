@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: flask-tasks-servicemonitor
+  namespace: monitoring
+  labels:
+    release: kube-prometheus-stack   # very important: must match Prometheus’ selector
+spec:
+  selector:
+    matchLabels:
+      app: flask-tasks-app          # matches your Service’s label
+  namespaceSelector:
+    matchNames:
+      - default                     # Service lives in default namespace
+  endpoints:
+    - port: http-metrics            # <-- Must match the Service port name
+      path: /metrics                # Path your Flask app exposes
+      interval: 15s                 # Scrape every 15s

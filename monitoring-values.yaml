@@ -1,0 +1,21 @@
+# monitoring-values.yaml
+grafana:
+  enabled: true
+  adminUser: admin
+  adminPassword: "ChangeMe123!"        # => définit le mot de passe admin Grafana
+  service:
+    type: NodePort
+    nodePort: 30080                    # expose Grafana sur le nœud (facultatif)
+  persistence:
+    enabled: true
+    size: 5Gi
+
+prometheus:
+  prometheusSpec:
+    retention: "15d"                   # durée de rétention des métriques
+
+# (optionnel) si ton PVC/StorageClass a besoin d'un fsGroup pour éviter chown errors:
+grafana:
+  securityContext:
+    runAsUser: 472
+    fsGroup: 472
