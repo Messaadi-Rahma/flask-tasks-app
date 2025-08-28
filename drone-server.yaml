@@ -41,7 +41,7 @@ spec:
             - name: DRONE_RPC_SECRET
               value: "supersecret1234"
             - name: DRONE_SERVER_HOST
-              value: "https://c034bd202af1.ngrok-free.app"   # Replace with your minikube IP if needed
+              value: "https://a830bb6be3c1.ngrok-free.app"   # Replace with your minikube IP if needed
             - name: DRONE_SERVER_PROTO
               value: "https"
             - name: DRONE_USER_CREATE
