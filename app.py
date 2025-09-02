@@ -1,10 +1,13 @@
 import os
 from flask import Flask, request, jsonify
 import json
+from prometheus_flask_exporter import PrometheusMetrics
 
 app = Flask(__name__)
 
 
+# 🔹 Enable Prometheus monitoring (auto exposes /metrics)
+metrics = PrometheusMetrics(app)
 
 # Environment config
 DATA_DIR = os.getenv('DATA_DIR', '/data')

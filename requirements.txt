@@ -1,2 +1,2 @@
 Flask
-prometheus-client
+prometheus-flask-exporter
