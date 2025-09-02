@@ -1,13 +1,10 @@
 import os
 from flask import Flask, request, jsonify
-from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
 import json
 
 app = Flask(__name__)
 
-@app.route("/metrics")
-def metrics():
-    return generate_latest(), 200, {"Content-Type": CONTENT_TYPE_LATEST}
+
 
 # Environment config
 DATA_DIR = os.getenv('DATA_DIR', '/data')
