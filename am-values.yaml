@@ -1,0 +1,13 @@
+alertmanager:
+  config:
+    global:
+      resolve_timeout: 5m
+
+    route:
+      receiver: "webhook-receiver"
+
+    receivers:
+      - name: "webhook-receiver"
+        webhook_configs:
+          - url: "https://66880450a859.ngrok-free.app/hook"
+            send_resolved: true
