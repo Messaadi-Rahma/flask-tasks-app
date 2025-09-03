@@ -1,3 +1,4 @@
+"""
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
@@ -26,3 +27,4 @@ spec:
           annotations:
             summary: "High Memory usage detected"
             description: "Pod {{ $labels.pod }} is using more than 500MB memory."
+"""

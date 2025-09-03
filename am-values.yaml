@@ -1,3 +1,4 @@
+"""
 alertmanager:
   config:
     global:
@@ -11,3 +12,4 @@ alertmanager:
         webhook_configs:
           - url: "https://66880450a859.ngrok-free.app/hook"
             send_resolved: true
+"""
