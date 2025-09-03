@@ -6,7 +6,7 @@ from prometheus_flask_exporter import PrometheusMetrics
 app = Flask(__name__)
 
 
-# 🔹 Enable Prometheus monitoring (auto exposes /metrics)
+# Enable Prometheus monitoring (auto exposes /metrics)
 metrics = PrometheusMetrics(app)
 
 # Environment config
