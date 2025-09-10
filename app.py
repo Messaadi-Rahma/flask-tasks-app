@@ -12,7 +12,7 @@ app = Flask(__name__)
 metrics = PrometheusMetrics(app)
 
 # Environment config
-DATA_DIR = os.getenv('DATA_DIR', '/data')
+DATA_DIR = os.getenv('DATA_DIR', '/data')         # use PVC mount path
 TASKS_FILE = os.path.join(DATA_DIR, os.getenv('TASKS_FILENAME', 'tasks.json'))
 SECRET_MESSAGE = os.getenv('SECRET_MESSAGE', 'No secret')
 PORT = int(os.getenv('PORT', 5000))
